@@ -1,15 +1,13 @@
 <template>
   <div class="hot">
     <!--1.轮播图-->
-    <div class="swiper-container">
+    <!--<div class="swiper-container" v-if="$store.state.homeCasual.length>0">--> <!--如果没有...mapState(['homeCasual'])这一步的话,也可以这样写-->
+    <div class="swiper-container" v-if="homeCasual.length>0">
       <div class="swiper-wrapper">
-        <div class="swiper-slide"><img src="../../imgs/rowing/s1.png" alt="" width="100%"></div>
-        <div class="swiper-slide"><img src="../../imgs/rowing/s2.png" alt="" width="100%"></div>
-        <div class="swiper-slide"><img src="../../imgs/rowing/s3.png" alt="" width="100%"></div>
-        <div class="swiper-slide"><img src="../../imgs/rowing/s4.png" alt="" width="100%"></div>
-        <div class="swiper-slide"><img src="../../imgs/rowing/s5.png" alt="" width="100%"></div>
-        <div class="swiper-slide"><img src="../../imgs/rowing/s6.png" alt="" width="100%"></div>
-        <div class="swiper-slide"><img src="../../imgs/rowing/s7.png" alt="" width="100%"></div>
+        <!--<div class="swiper-slide"><img src="../../imgs/rowing/s1.png" alt="" width="100%"></div>-->
+        <div class="swiper-slide" v-for="(item,index) in homeCasual" :key="index">
+          <img :src="item.imgurl" alt="" width="100%">
+        </div>
       </div>
       <!-- 如果需要分页器 -->
       <div class="swiper-pagination"></div>
@@ -38,28 +36,72 @@
   import Swiper from 'swiper/dist/js/swiper.js'
   import 'swiper/dist/css/swiper.min.css'
 
+  import {
+    mapState
+  }from 'vuex'
+
   export default {
     name: "Hot",
     components: {
       HotNav,
       HotShopList
     },
+    computed: {
+      //2.取出state中存放的数据
+      ...mapState(['homeCasual']),
+
+    },
     mounted() {
-      //创建Swiper实例
-      new Swiper('.swiper-container', {
-        autoplay: true, //自动播放
-        loop: true, //循环
-        //如果需要分页器
-        pagination: {
-          el: '.swiper-pagination',
-          // clickable :true,
-        },
-        //导航按钮
-        // navigation:{
-        //   nextEl: '.swiper-button-next',
-        //   prevEl: '.swiper-button-prev',
-        // }
-      })
+      //1.请求轮播图的数据
+      /*this.$store.dispatch('reqHomeCasual', ()=> {  //等价于this.$store.dispatch('reqHomeCasual') + watch中的homeCasual(){}
+        // debugger;
+        this.$nextTick(() => {   //this.$nextTick将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
+          //创建Swiper实例
+          new Swiper('.swiper-container', {
+            autoplay: true, //自动播放
+            loop: true, //循环
+            //如果需要分页器
+            pagination: {
+              el: '.swiper-pagination',
+              // clickable :true,
+            },
+            //导航按钮
+            // navigation:{
+            //   nextEl: '.swiper-button-next',
+            //   prevEl: '.swiper-button-prev',
+            // }
+          })
+        });
+      })*/
+      this.$store.dispatch('reqHomeCasual');  //这一步之后会将请求的数据放到state中
+
+      //首页导航
+      this.$store.dispatch('reqHomeNav');  //向后台请求首页导航的数据，此步之后会将请求返回的数据存放到state中
+
+      //首页商品数据
+      this.$store.dispatch('reqHomeShopList');
+    },
+    watch: {
+      //3.监视homeCasual数据的变化
+      homeCasual(pre, now){
+        this.$nextTick(()=>{   //this.$nextTick将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
+          //创建Swiper实例
+          new Swiper('.swiper-container', {
+            autoplay: true, //自动播放
+            loop: true, //循环
+            //如果需要分页器
+            pagination: {
+              el: '.swiper-pagination',
+              // clickable :true,
+            },
+            //导航按钮
+            // navigation:{
+            //   nextEl: '.swiper-button-next',
+            //   prevEl: '.swiper-button-prev',
+            // }
+          })
+        })
+      }
     }
   }
 </script>

@@ -29,7 +29,7 @@ module.exports = {
       '@': resolve('src'),
       //自己写的路径配置
       'common': resolve('src/common'),
-      'static': resolve('static')
+      'api': resolve('src/api')
     }
   },
   module: {

@@ -1,47 +1,15 @@
 <template>
   <div class="hot-nav">
     <!--滚动区域-->
-    <div class="hot-nav-container">
+    <div class="hot-nav-container" v-if="homeNav.length>0">
       <div class="nav-container-inner">
-        <a href="" class="inner-item">
+        <!--<a href="" class="inner-item">
           <img src="../../imgs/nav/nav_icon01.png" alt="">
           <span>限时秒杀</span>
-        </a>
-        <a href="" class="inner-item">
-          <img src="../../imgs/nav/nav_icon01.png" alt="">
-          <span>限时秒杀</span>
-        </a>
-        <a href="" class="inner-item">
-          <img src="../../imgs/nav/nav_icon01.png" alt="">
-          <span>限时秒杀</span>
-        </a>
-        <a href="" class="inner-item">
-          <img src="../../imgs/nav/nav_icon01.png" alt="">
-          <span>限时秒杀</span>
-        </a>
-        <a href="" class="inner-item">
-          <img src="../../imgs/nav/nav_icon01.png" alt="">
-          <span>限时秒杀</span>
-        </a>
-        <a href="" class="inner-item">
-          <img src="../../imgs/nav/nav_icon01.png" alt="">
-          <span>限时秒杀</span>
-        </a>
-        <a href="" class="inner-item">
-          <img src="../../imgs/nav/nav_icon01.png" alt="">
-          <span>限时秒杀</span>
-        </a>
-        <a href="" class="inner-item">
-          <img src="../../imgs/nav/nav_icon01.png" alt="">
-          <span>限时秒杀</span>
-        </a>
-        <a href="" class="inner-item">
-          <img src="../../imgs/nav/nav_icon01.png" alt="">
-          <span>限时秒杀</span>
-        </a>
-        <a href="" class="inner-item">
-          <img src="../../imgs/nav/nav_icon01.png" alt="">
-          <span>限时秒杀</span>
+        </a>-->
+        <a href="" class="inner-item" v-for="(item, index) in homeNav" :key="index">
+          <img :src="item.iconurl" alt="">
+          <span>{{item.icontitle}}</span>
         </a>
       </div>
     </div>
@@ -53,6 +21,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   export default {
     name: "HotNav",
     data(){
@@ -79,11 +48,15 @@
           width: `${this.barXWidth}px`,
           left: `${this.barMoveWidth}px`
         }
-      }
+      },
+      ...mapState(['homeNav'])  //取出state中存放的数据
     },
     mounted(){
-      this.getBottomWidth();
-      this.bindEvent();
+      //注意：数据请求一般放于父组件中
+      //this.$store.dispatch('reqHomeNav');  //向后台请求首页导航的数据，此步之后会将请求返回的数据存放到state中
+
+      this.getBottomWidth();  //获取滚动条的长度
+      this.bindEvent();  //移动端事件监听
     },
     methods: {
       //获取滚动条的长度
@@ -139,7 +112,6 @@
         this.endFlag = this.barMoveWidth;
       }
     }
-
   }
 </script>
 

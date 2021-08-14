@@ -40,14 +40,14 @@ router.get('/data', function(req, res) {
  * 获取首页轮播图
  */
 router.get('/api/homecasual', (req, res)=>{
-   /* let sqlStr = 'select * from homecasual';
+   /*let sqlStr = 'select * from homecasual';
     conn.query(sqlStr, (err, results) => {
         if (err) return res.json({err_code: 1, message: '资料不存在', affextedRows: 0})
         res.json({success_code: 200, message: results, affextedRows: results.affextedRows})
     })*/
-    const data = require('../data/homecasual');
+    const data = require('../data/homecasual').data;
     res.json({success_code: 200, message: data})
-});
+})
 
 /**
  * 获取首页导航
