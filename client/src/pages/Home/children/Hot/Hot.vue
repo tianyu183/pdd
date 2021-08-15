@@ -83,7 +83,7 @@
     },
     watch: {
       //3.监视homeCasual数据的变化
-      homeCasual(pre, now){
+      homeCasual(newVal, oldVal){
         this.$nextTick(()=>{   //this.$nextTick将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
           //创建Swiper实例
           new Swiper('.swiper-container', {
