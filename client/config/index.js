@@ -11,7 +11,6 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {  //配置代理, 解决跨域问题
-      /*
       '/api': {  //使用"/api"来代替"http://127.0.0.1:3000/"
         target: 'http://127.0.0.1:3000/', //源地址
         changeOrigin: true, //改变源
@@ -19,7 +18,6 @@ module.exports = {
           '^/api': '' //路径重写
         }
       }
-      */
     },
 
     // Various Dev Server settings

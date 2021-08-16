@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "better-scroll": "^2.4.2",
     "ly-tab": "^2.1.2",
     "swiper": "^4.3.5",
     "vue": "^2.5.2",

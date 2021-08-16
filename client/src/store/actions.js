@@ -7,7 +7,8 @@ import {
   getHomeCasual,
   getHomeNav,
   getHomeShopList,
-  getRecommendShopList
+  getRecommendShopList,
+  getSearchGoods,
 
 } from '../api'
 
@@ -15,7 +16,9 @@ import {
   HOMECASUAL,
   HOMENAV,
   HOMESHOPLIST,
-  RECOMMENDSHOPLIST
+  RECOMMENDSHOPLIST,
+  SEARCHGOODS,
+
 } from './mutations-type'
 
 export default {
@@ -47,10 +50,16 @@ export default {
   //4.获取推荐页的商品数据
   async reqRecommendShopList({commit}){
     const result= await getRecommendShopList();
-    commit(RECOMMENDSHOPLIST, {recommendShopList: result.message.data})
+    commit(RECOMMENDSHOPLIST, {recommendShopList: result.message})
   },
 
 
+  //5.获取搜索页的商品数据
+  async reqSearchGoods({commit}, callback){
+    const result= await getSearchGoods();
+    commit(SEARCHGOODS, {searchGoods: result.message.data});
+    callback && callback();
+  },
 
 
 

@@ -15,6 +15,10 @@ export default {
   //推荐页的商品列表
   recommendShopList: [],
 
+  //搜索页的商品列表
+  searchGoods: [],
+
+
 }
 
 

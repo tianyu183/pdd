@@ -7,7 +7,8 @@ import {
   HOMECASUAL,
   HOMENAV,
   HOMESHOPLIST,
-  RECOMMENDSHOPLIST
+  RECOMMENDSHOPLIST,
+  SEARCHGOODS
 } from './mutations-type'
 
 
@@ -32,7 +33,10 @@ export default {
     state.recommendShopList= recommendShopList;
   },
 
-
+  //5.获取搜索页的商品数据
+  [SEARCHGOODS](state, {searchGoods}){
+    state.searchGoods= searchGoods;
+  },
 
 }
 
