@@ -133,6 +133,84 @@ export default{
     npm install better-scroll --save
 
 
+# 使用mint-ui里面的Indicator(加载提示框)
+## npm install mint-ui --save
+    修改.babelrc, 实现按需引入
+      npm install babel-plugin-component --save-dev 解决报错:Module build failed: ReferenceError: Unknown plugin "component" specified in
+```.babelrc
+{
+  "presets": [
+    ["env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
+      }
+    }],
+    "stage-2"
+  ],
+  "plugins": ["transform-vue-jsx", "transform-runtime", ["component", [
+    {
+      "libraryName": "mint-ui",
+      "style": true
+    }
+  ]]]
+}
+```
+## import {Indicator} from 'mint-ui'
+```
+mounted() {
+  Indicator.open({    //打开加载提示框
+    text: 'Loading...',
+    spinnerType: 'fading-circle'
+  });
+  this.$store.dispatch('reqRecommendShopList', {
+    page: this.page,
+    count: this.count,
+    callback: ()=>{
+      Indicator.close();  //关闭加载提示框
+    }
+  })
+}
+```
+
+# 根据session中的id实现自动登录
+```js
+// src/api/index.js
+//如存在req.session.user_id, 则可通过getUserInfo获取之前登录的用户信息, 实现自动登录
+export const getUserInfo= ()=>ajax(BASE_URL+'/api/user_info');  //获取登录的用户信息
+
+//src/store/actions.js
+//7.异步获取用户信息
+async getUserInfo({commit}){
+  const result= await getUserInfo();
+  // console.log(result)
+  if(result.success_code===200){
+    commit(SYNC_USER_INFO, {userInfo: result.message})
+  }
+},
+
+//App.vue
+created(){
+  //如存在req.session.user_id, 则可通过getUserInfo获取之前登录的用户信息, 实现自动登录
+  this.$store.dispatch('getUserInfo')
+}
+
+```
+
+# 引入字体图标
+## 制作字体图标的两个网站
+    阿里矢量图标库 https://www.iconfont.cn/
+    免费生成字体图标 https://icomoon.io/app/#/select
+## 全局引入到项目中,之后根据类名即可使用字体图标
+```js
+//main.js
+import font from './common/css/style.css'  //引入字体图标文件
+
+//具体使用见 MeTop.vue
+```
+
+# 时间处理类库
+    npm install moment --save
 
 
 # 后端服务器的搭建
@@ -157,6 +235,27 @@ export default{
 body-parser插件
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 > A Vue.js project

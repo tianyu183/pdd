@@ -119,13 +119,17 @@ export default {
       //右边滑动
       this.rightBScroll= new BScroll('.shop-wrapper', {
         scrollY: true, //开启纵向滚动
-        probeType: 3  //开启监听
+        probeType: 3  //开启监听, probeType: 3表示实时传递滚动位置
       })
+      // console.log(this.rightBScroll)
 
       //监听右侧的滑动事件
       this.rightBScroll.on('scroll', (pos)=>{
         // console.log(pos)
-        this.scrollY= Math.abs(pos.y)
+        //获取实时滚动的距离 使用scrollY接收
+        this.scrollY = Math.abs(Math.round(pos.y))
+        // this.scrollY= Math.abs(pos.y)
+
       })
     },
 
@@ -158,7 +162,7 @@ export default {
       // console.log(menuList)
       let el= menuList[index];
       // console.log(el)
-      this.leftBScroll.scrollToElement(el,300, 0, -100);
+      this.leftBScroll.scrollToElement(el,300, 0, -300);
     },
 
     //点击左侧, 右侧滚动到对应位置

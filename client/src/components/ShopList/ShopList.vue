@@ -5,7 +5,8 @@
     <div class="item-bottom">
       <span class="item-price">￥{{item.price/100}}</span>
       <span class="item-sales">{{item.sales_tip}}</span>
-      <button class="item-btn" v-if="true">找相关</button>
+      <!--<button class="item-btn" v-if="true">找相关</button>-->
+      <button class="item-btn" v-if="true" @click="clickCellBtn(item)">加入购物车</button>
       <span v-else class="item-user">
         <img src="../../../static/img/icon_mine.png" alt="">
         <img src="../../../static/img/icon_chat.png" alt="">
@@ -18,7 +19,11 @@
 export default {
   name: "ShopList",
   props: {
-    item: Object
+    item: Object,
+    clickCellBtn: {
+      type: Function,
+      default: ()=>{}
+    }
   }
 }
 </script>
@@ -39,10 +44,10 @@ export default {
     font-size 14px
     font-weight lighter
     overflow hidden;
-    text-overflow ellipsis
-    display -webkit-box
-    -webkit-line-clamp 1
-    -webkit-box-orient vertical
+    //text-overflow ellipsis
+    //display -webkit-box
+    //-webkit-line-clamp 1
+    //-webkit-box-orient vertical
   .item-bottom
     padding 0 4px
     display flex

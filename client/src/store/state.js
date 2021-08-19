@@ -19,6 +19,11 @@ export default {
   searchGoods: [],
 
 
+  //登录页的用户信息
+  userInfo: {},
+
+  //购物车
+  cartGoods: []
 }
 
 

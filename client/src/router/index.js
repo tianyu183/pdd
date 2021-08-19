@@ -8,6 +8,9 @@ import Recommend from '@/pages/Recommend/Recommend'
 import Search from '@/pages/Search/Search'
 import Chat from '@/pages/Chat/Chat'
 import Me from '@/pages/Me/Me'
+import Login from "../pages/Login/Login"
+import MeSetting from "../pages/MeSetting/MeSetting"
+import UserDetail from "../pages/Me/UserDetail"
 
 //二级路由
 import Hot from "../pages/Home/children/Hot/Hot";
@@ -35,85 +38,113 @@ Router.prototype.replace = function replace(location) {
 export default new Router({
   routes: [
     //3.1配置一级路由
+    { //路由重定向
+      path: '/',
+      redirect: '/home'
+    },
     { //首页板块
       path: '/home',
       name: 'Home',
       component: Home,
       children: [
+        {
+          path: '/home',
+          redirect: '/home/hot'
+        },
         { //首页的热门板块
           path: 'hot',
           name: 'Hot',
-          component: Hot
+          component: Hot,
+          meta: {showBottomTabBar: true}
         },
         { //首页的服饰板块
           path: 'dress',
           name: 'Dress',
-          component: Dress
+          component: Dress,
+          meta: {showBottomTabBar: true}
         },
         { //首页的鞋包板块
           path: 'box',
           name: 'Box',
-          component: Box
+          component: Box,
+          meta: {showBottomTabBar: true}
         },
         { //首页的母婴板块
           path: 'mbaby',
           name: 'Mbaby',
-          component: Mbaby
+          component: Mbaby,
+          meta: {showBottomTabBar: true}
         },
         { //首页的百货板块
           path: 'general',
           name: 'General',
-          component: General
+          component: General,
+          meta: {showBottomTabBar: true}
         },
         { //首页的食品板块
           path: 'food',
           name: 'Food',
-          component: Food
+          component: Food,
+          meta: {showBottomTabBar: true}
         },
         { //首页的内衣板块
           path: 'shirt',
           name: 'Shirt',
-          component: Shirt
+          component: Shirt,
+          meta: {showBottomTabBar: true}
         },
         { //首页的男装板块
           path: 'man',
           name: 'Man',
-          component: Man
+          component: Man,
+          meta: {showBottomTabBar: true}
         },
         { //首页的电器板块
           path: 'electric',
           name: 'Electric',
-          component: Electric
-        },
-        {
-          path: '/home',
-          redirect: '/home/hot'
+          component: Electric,
+          meta: {showBottomTabBar: true}
         }
       ]
     },
     { //推荐板块
       path: '/recommend',
       name: 'Recommend',
-      component: Recommend
+      component: Recommend,
+      meta: {showBottomTabBar: true}
     },
     { //搜索板块
       path: '/search',
       name: 'Search',
-      component: Search
+      component: Search,
+      meta: {showBottomTabBar: true}
     },
     { //聊天板块
       path: '/chat',
       name: 'Chat',
-      component: Chat
+      component: Chat,
+      meta: {showBottomTabBar: true}
     },
     { //个人中心板块
       path: '/me',
       name: 'Me',
-      component: Me
+      component: Me,
+      meta: {showBottomTabBar: true}
     },
-    { //路由重定向
-      path: '/',
-      redirect: '/home'
+    { //登录板块
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    { //设置板块
+      path: '/setting',
+      name: 'MeSetting',
+      component: MeSetting
+    },
+    { //用户详情板块
+      path: '/userdetail',
+      name: 'UserDetail',
+      component: UserDetail
     }
 
   ]

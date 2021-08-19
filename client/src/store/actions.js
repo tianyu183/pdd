@@ -9,7 +9,9 @@ import {
   getHomeShopList,
   getRecommendShopList,
   getSearchGoods,
-
+  getUserInfo,
+  getLogout,
+  getCartGoods
 } from '../api'
 
 import {
@@ -18,7 +20,9 @@ import {
   HOMESHOPLIST,
   RECOMMENDSHOPLIST,
   SEARCHGOODS,
-
+  SYNC_USER_INFO,
+  RESET_USER_INFO,
+  GET_CART_GOODS
 } from './mutations-type'
 
 export default {
@@ -48,9 +52,14 @@ export default {
 
 
   //4.获取推荐页的商品数据
-  async reqRecommendShopList({commit}){
-    const result= await getRecommendShopList();
+  async reqRecommendShopList({commit}, data){
+    let params={
+      page: data.page,
+      count: data.count
+    }
+    const result= await getRecommendShopList(params);
     commit(RECOMMENDSHOPLIST, {recommendShopList: result.message})
+    data.callback && data.callback()
   },
 
 
@@ -62,6 +71,38 @@ export default {
   },
 
 
+  //6.同步用户信息
+  syncUserInfo({commit}, userInfo){
+    commit(SYNC_USER_INFO, {userInfo})
+  },
+
+  //7.异步获取用户信息
+  async getUserInfo({commit}){
+    const result= await getUserInfo();
+    // console.log(result)
+    if(result.success_code===200){
+      commit(SYNC_USER_INFO, {userInfo: result.message})
+    }
+  },
+
+  //8.退出登录,并清空用户信息
+  async logout({commit}, userInfo){
+    const result= await getLogout();
+    // console.log(result)
+    if(result.success_code===200){
+      // commit(SYNC_USER_INFO, {userInfo: userInfo})  //清空vuex中的用户信息
+      commit(RESET_USER_INFO) //清空vuex中的用户信息
+    }
+  },
+
+  //9.异步获取购物车信息
+  async reqCartGoods({commit}){
+    const result= await getCartGoods();
+    console.log(result)
+    if(result.success_code===200){
+      commit(GET_CART_GOODS, {cartGoods: result.message})
+    }
+  }
 
 }
 

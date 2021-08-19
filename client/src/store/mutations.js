@@ -8,7 +8,10 @@ import {
   HOMENAV,
   HOMESHOPLIST,
   RECOMMENDSHOPLIST,
-  SEARCHGOODS
+  SEARCHGOODS,
+  SYNC_USER_INFO,
+  RESET_USER_INFO,
+  GET_CART_GOODS,
 } from './mutations-type'
 
 
@@ -30,7 +33,7 @@ export default {
 
   //4.获取推荐页商品数据
   [RECOMMENDSHOPLIST](state, {recommendShopList}){
-    state.recommendShopList= recommendShopList;
+    state.recommendShopList= state.recommendShopList.concat(recommendShopList);
   },
 
   //5.获取搜索页的商品数据
@@ -38,6 +41,20 @@ export default {
     state.searchGoods= searchGoods;
   },
 
+  //6.同步用户信息
+  [SYNC_USER_INFO](state, {userInfo}){
+    state.userInfo= userInfo;
+  },
+
+  //7.清空vuex中的用户信息
+  [RESET_USER_INFO](state){
+    state.userInfo= {};
+  },
+
+  //8.请求购物车的数据
+  [GET_CART_GOODS](state, {cartGoods}){
+    state.cartGoods= cartGoods;
+  },
 }
 
 

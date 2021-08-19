@@ -1,12 +1,15 @@
-var md5 = require('blueimp-md5');
-var moment = require('moment');
-var Base64 = require('js-base64').Base64;
-var request = require('request');
+/**
+ * 腾讯云短信服务
+ */
+var md5 = require('blueimp-md5');  //md5加密 (信息-摘要算法) --加密密码,有时候也会用来加密用户名
+var moment = require('moment'); //一个日期处理类库,用于解析、检验、操作以及显示日期
+var Base64 = require('js-base64').Base64;  //把一些信息转为Base64编码
+var request = require('request'); //request对象
 
 /*生成指定长度的随机数*/
 function randomCode(length) {
     var chars = ['0','1','2','3','4','5','6','7','8','9'];
-    var result = ""; 
+    var result = "";
     for(var i = 0; i < length ; i ++) {
         var index = Math.ceil(Math.random()*9);
         result += chars[index];

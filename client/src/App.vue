@@ -2,7 +2,7 @@
   <div id="app">
     <router-view/>
 
-    <TabBar/>
+    <TabBar v-show="$route.meta.showBottomTabBar"/>
   </div>
 </template>
 
@@ -12,6 +12,10 @@ export default {
   name: 'App',
   components: {
     TabBar
+  },
+  created(){
+    //如存在req.session.user_id, 则可通过getUserInfo获取之前登录的用户信息, 实现自动登录
+    this.$store.dispatch('getUserInfo')
   }
 }
 </script>

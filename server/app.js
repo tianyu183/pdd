@@ -39,12 +39,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use(session({
-    secret :  '12345', // 对session id 相关的cookie 进行签名
-    cookie : {maxAge : 1000 * 60 * 60 * 24}, // 设置 session 的有效时间，单位毫秒},
-    resave : false,
-    saveUninitialized: true, // 是否保存未初始化的会话
+    secret :  '12345', //对session id 相关的cookie进行签名
+    cookie : {maxAge : 1000 * 60 * 60 * 24}, // 设置session的有效时间，单位毫秒},
+    resave : false, //是否重复保存
+    saveUninitialized: true, //是否保存未初始化的会话
 }));
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
