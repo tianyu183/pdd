@@ -23,7 +23,10 @@ export default {
   userInfo: {},
 
   //购物车
-  cartGoods: []
+  cartGoods: [],
+
+  //MeScroll框架需要用到
+  scrollTops: {},
 }
 
 

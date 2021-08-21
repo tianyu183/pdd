@@ -22,7 +22,13 @@ import {
   SEARCHGOODS,
   SYNC_USER_INFO,
   RESET_USER_INFO,
-  GET_CART_GOODS
+  GET_CART_GOODS,
+  ADD_GOODS_COUNT,
+  REDUCE_GOODS_COUNT,
+  SELECTED_ALL_GOODS,
+  SELECTED_SINGLE_GOODS,
+  DEL_SINGLE_GOODS,
+
 } from './mutations-type'
 
 export default {
@@ -52,7 +58,7 @@ export default {
 
 
   //4.获取推荐页的商品数据
-  async reqRecommendShopList({commit}, data){
+  /*async reqRecommendShopList({commit}, data){
     let params={
       page: data.page,
       count: data.count
@@ -60,6 +66,21 @@ export default {
     const result= await getRecommendShopList(params);
     commit(RECOMMENDSHOPLIST, {recommendShopList: result.message})
     data.callback && data.callback()
+  },*/
+  //使用MeScroll后需更改的代码
+  async reqRecommendShopList({commit}, data){
+    let params={
+      page: data.page,
+      count: data.count
+    }
+    const result= await getRecommendShopList(params);
+    // console.log(result)
+    if(result.success_code===200){
+      commit(RECOMMENDSHOPLIST, {recommendShopList: result.message})
+      data.scb && data.scb(result.message)
+    } else{
+      data.ecb && data.ecb('请求数据失败')
+    }
   },
 
 
@@ -102,7 +123,31 @@ export default {
     if(result.success_code===200){
       commit(GET_CART_GOODS, {cartGoods: result.message})
     }
-  }
+  },
+
+  //10.单个商品的增加和减少
+  async updateGoodsCount({commit}, {goods, isAdd}){
+    if(isAdd){ //增加
+      commit(ADD_GOODS_COUNT, {goods})
+    } else{ //减少
+      commit(REDUCE_GOODS_COUNT, {goods})
+    }
+  },
+
+  //11.是否选中购物车中所有的商品
+  selectedAll({commit}, {isSelected}){
+    commit(SELECTED_ALL_GOODS, {isSelected})
+  },
+
+  //12.单个商品的选中和取消
+  selectedSingle({commit}, {goods}){
+    commit(SELECTED_SINGLE_GOODS, {goods})
+  },
+
+  //13.单个商品的删除
+  delSingleGoods({commit}, {goods}){
+    commit(DEL_SINGLE_GOODS, {goods})
+  },
 
 }
 

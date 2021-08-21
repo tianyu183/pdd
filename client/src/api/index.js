@@ -5,8 +5,9 @@
 import ajax from './ajax.js'
 
 //1.基础路径
-// const BASE_URL= 'http://127.0.0.1:3000';
-const BASE_URL= '/api';
+const BASE_URL= '/api';  //这样写是为了解决跨域问题
+// const BASE_URL= 'http://127.0.0.1:3000';  //进行打包时因打包后的文件直接在服务端运行,所以这里的地址直接写服务器地址即可, 也可以直接设置为空字符串
+// const BASE_URL= '';  //打包时使用
 
 //2.请求方法
 //首页
@@ -17,7 +18,6 @@ export const getHomeShopList= ()=>ajax(BASE_URL+'/api/homeshoplist');   //请求
 
 //推荐页
 export const getRecommendShopList= (params)=>ajax(BASE_URL+'/api/recommendshoplist', params);  //请求推荐页的商品数据
-
 
 //搜索页
 export const getSearchGoods= ()=>ajax(BASE_URL+'/api/searchgoods');  //请求搜索页的商品数据

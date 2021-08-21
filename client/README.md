@@ -213,6 +213,43 @@ import font from './common/css/style.css'  //引入字体图标文件
     npm install moment --save
 
 
+# 图片懒加载插件 vue-lazyload
+    npm install vue-lazyload -D
+
+
+# 项目打包上线
+## 1. npm run build
+    在执行npm run build之后会在本地项目的根目录下面生成一个dist目录
+```
+//打包报错 UnhandledPromiseRejectionWarning: CssSyntaxError:
+//将 build/webpack.prod.conf.js 中的以下代码注释掉,即可解决报错
+// new OptimizeCSSPlugin({
+//   cssProcessorOptions: config.build.productionSourceMap
+//     ? { safe: true, map: { inline: false } }
+//     : { safe: true }
+// }),
+
+//OptimizeCSSPlugin 是用来优化和压缩文件的，注释掉就不会压缩，再次build打包的时候可以看到dist目录下多了很多文件。
+/*报错原因： css样式中不能用//来注释
+  根源:
+  1.首先看看OptimizeCSSPlugin 这个插件是那里引入，查看package.json，搜索到"optimize-css-assets-webpack-plugin": {"version": "3.2.0"｝，
+  但是在package-lock.json看到optimize-css-assets-webpack-plugin": {"version": "3.2.1"｝
+  2.发现package.json和package-lock.json的optimize-css-assets-webpack-plugin插件版本没对上
+  3.分析发现，optimize-css-assets-webpack-plugin-3.2.0没有严格校验，所以可以打包通过，3.2.1有严格校验，所以打包出异常了
+  4.再次分析，为什么重新执行了npm install，会出现package.json和package-lock.json的依赖版本对不上？正常来说是一致的
+  5.再查询资料，结论是：npm或者cnpm 安装依赖，不会完全按照package.json中的版本号来，会有稍微差异
+*/
+```
+## 2. 部署
+    将dist目录下的所有文件或文件夹都放到自建服务器的public目录下
+    npm start 启动服务器
+    在浏览器地址栏中输入 http://127.0.0.1:3000/ 即可
+
+
+
+# mescroll 解决移动端的各种滚动场景需求的插件, 可以用来代替better-scroll
+
+
 # 后端服务器的搭建
 ## 安装Express应用生成器
     npm install express-generator -g
@@ -238,6 +275,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 
+# 解决跨域问题的两种方法
+    1.服务器端解决
+    2.客户端解决
+    二选一即可
 
 
 

@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <router-view/>
+    <!--router-view: 用来显示当前路由组件界面-->
+    <!--<router-view></router-view>-->
+
+    <keep-alive> <!--keep-alive: 缓存路由组件对象-->
+      <router-view></router-view>
+    </keep-alive>
 
     <TabBar v-show="$route.meta.showBottomTabBar"/>
   </div>

@@ -46,17 +46,33 @@ const webpackConfig = merge(baseWebpackConfig, {
       filename: utils.assetsPath('css/[name].[contenthash].css'),
       // Setting the following option to `false` will not extract CSS from codesplit chunks.
       // Their CSS will instead be inserted dynamically with style-loader when the codesplit chunk has been loaded by webpack.
-      // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`, 
+      // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`,
       // increasing file size: https://github.com/vuejs-templates/webpack/issues/1110
       allChunks: true,
     }),
+
+
+
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: config.build.productionSourceMap
-        ? { safe: true, map: { inline: false } }
-        : { safe: true }
-    }),
+    //将以下代码注释掉,即可解决报错: UnhandledPromiseRejectionWarning: CssSyntaxError:
+    //OptimizeCSSPlugin 是用来优化和压缩文件的，注释掉就不会压缩，再次build打包的时候可以看到dist目录下多了很多文件。
+    /*报错原因： css样式中不能用//来注释
+     1.首先看看OptimizeCSSPlugin 这个插件是那里引入，查看package.json，搜索到"optimize-css-assets-webpack-plugin": {"version": "3.2.0"｝，
+       但是在package-lock.json看到optimize-css-assets-webpack-plugin": {"version": "3.2.1"｝
+     2.发现package.json和package-lock.json的optimize-css-assets-webpack-plugin插件版本没对上
+     3.分析发现，optimize-css-assets-webpack-plugin-3.2.0没有严格校验，所以可以打包通过，3.2.1有严格校验，所以打包出异常了
+     4.再次分析，为什么重新执行了npm install，会出现package.json和package-lock.json的依赖版本对不上？正常来说是一致的
+     5.再查询资料，结论是：npm或者cnpm 安装依赖，不会完全按照package.json中的版本号来，会有稍微差异
+     */
+    // new OptimizeCSSPlugin({
+    //   cssProcessorOptions: config.build.productionSourceMap
+    //     ? { safe: true, map: { inline: false } }
+    //     : { safe: true }
+    // }),
+
+
+
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin

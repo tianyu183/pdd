@@ -180,7 +180,7 @@ router.get('/api/captcha', (req, res) => {
         color: true,  //是否给验证码字体设置各种颜色
         // background: '#cc9966', //验证码背景色
     });
-    // console.log(captcha.text);
+    console.log(captcha.text);
 
     //2.将验证码保存在session中,之后只要在会话期间,每次客户端向服务器发请求时req中都含有session.captcha
     req.session.captcha = captcha.text.toLocaleLowerCase();
@@ -336,7 +336,7 @@ router.post('/api/login_pwd', (req, res) => {
         if (error) {
             res.json({err_code: 0, message: '用户名不正确!'});
         } else {
-            // console.log(results)
+            console.log(results)
             results = JSON.parse(JSON.stringify(results));
             if (results[0]) {  // 用户已经存在
                  // 验证密码是否正确
@@ -510,7 +510,7 @@ router.post('/api/add_shop_cart', (req, res) => {
             results = JSON.parse(JSON.stringify(results));
             // console.log(results);
             if (results[0]) { // 3.1 商品已经存在
-                console.log(results[0]);
+                // console.log(results[0]);
                 let buy_count = results[0].buy_count + 1;
                 let sql_str = "UPDATE pdd_cart SET buy_count = " + buy_count + " WHERE goods_id = '" + goods_id + "' AND user_id = '"+ user_id +"'";
                 conn.query(sql_str, (error, results, fields) => {

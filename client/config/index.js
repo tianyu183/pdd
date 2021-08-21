@@ -11,11 +11,20 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {  //配置代理, 解决跨域问题
-      '/api': {  //使用"/api"来代替"http://localhost:3000/"
-        target: 'http://localhost:3000/', //源地址
+      //访问本地服务器
+      '/api': {  //使用"/api"来代替"http://localhost:3000"
+        target: 'http://localhost:3000', //源地址
         changeOrigin: true, //改变源
         pathRewrite: {
           '^/api': '' //路径重写
+        }
+      },
+
+      '/pdd_api': {
+        target: 'http://mobile.pinduoduo.com/proxy/api/api/alexa/goods/hub', //源地址
+        changeOrigin: true, //改变源
+        pathRewrite: {
+          '^/pdd_api': '' //路径重写
         }
       }
     },

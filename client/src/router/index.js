@@ -3,14 +3,28 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 //一级路由
-import Home from '@/pages/Home/Home'
-import Recommend from '@/pages/Recommend/Recommend'
-import Search from '@/pages/Search/Search'
-import Chat from '@/pages/Chat/Chat'
-import Me from '@/pages/Me/Me'
-import Login from "../pages/Login/Login"
-import MeSetting from "../pages/MeSetting/MeSetting"
-import UserDetail from "../pages/Me/UserDetail"
+// import Home from '@/pages/Home/Home'
+// import Recommend from '@/pages/Recommend/Recommend'
+// import Search from '@/pages/Search/Search'
+// import Chat from '@/pages/Chat/Chat'
+// import Me from '@/pages/Me/Me'
+// import Login from "../pages/Login/Login"
+// import MeSetting from "../pages/MeSetting/MeSetting"
+// import UserDetail from "../pages/Me/UserDetail"
+
+//路由优化：采用函数式按需加载路由 (路由组件的懒加载)
+const Home= ()=> import('@/pages/Home/Home');
+
+// const Recommend= ()=> import('@/pages/Recommend/Recommend');
+const Recommend= ()=> import('@/pages/Recommend/Recommend_MeScroll');
+
+const Search= ()=> import('@/pages/Search/Search');
+const Chat= ()=> import('@/pages/Chat/Chat');
+const Me= ()=> import('@/pages/Me/Me');
+const Login= ()=> import('../pages/Login/Login');
+const MeSetting= ()=> import('../pages/MeSetting/MeSetting');
+const UserDetail= ()=> import('../pages/Me/UserDetail');
+
 
 //二级路由
 import Hot from "../pages/Home/children/Hot/Hot";

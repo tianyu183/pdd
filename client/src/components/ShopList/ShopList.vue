@@ -1,6 +1,7 @@
 <template>
   <a class="recommend-item">
-    <img :src="item.thumb_url" alt="" width="100%" v-if="item.thumb_url">
+    <!--<img :src="item.thumb_url" alt="" width="100%" v-if="item.thumb_url">-->
+    <img v-lazy="item.thumb_url" alt="" width="100%">  <!--图片懒加载-->
     <h4 class="item-title">{{item.short_name}}</h4>
     <div class="item-bottom">
       <span class="item-price">￥{{item.price/100}}</span>
@@ -30,10 +31,10 @@ export default {
 
 <style scoped lang="stylus" ref="stylesheet/stylus">
 .recommend-item:nth-child(2n-1)
-  margin-right 2%
+  margin-right 1.6%
 .recommend-item
   background-color #fff
-  width 49%
+  width 49.2%
   padding-bottom 10px
   margin-bottom 10px
   .item-title
@@ -57,17 +58,17 @@ export default {
     .item-price
       flex 2
       color #f00
-      font-size 13px
+      font-size 10px
       font-weight bolder
     .item-sales
-      flex 5
-      font-size 9px
+      flex 4
+      font-size 8px
       color #666
     .item-btn
-      flex 3
+      flex 4
       height 26px
       color red
-      font-size 10px
+      font-size 5px
       background-color transparent
       border 1px solid orangered
       border-radius 5px

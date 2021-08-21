@@ -20,7 +20,7 @@
         <section>
           <div class="shopCart_list_con" v-for="(goods, index) in cartGoods" :key="index">
             <div class="list_con_left">
-              <a href="javascript:;" class="cart_check_box" checked></a>
+              <a href="javascript:;" class="cart_check_box" :checked="goods.checked" @click.stop="selectedSingle(goods)"></a>
             </div>
             <div class="list_con_right">
               <div class="shop_img">
@@ -28,14 +28,15 @@
               </div>
               <div class="shop_con">
                 <a href="">{{goods.goods_name}}</a>
-                <p class="shop_price">&yen;{{goods.price / 100}}</p>
+                <!--<p class="shop_price">&yen;{{goods.price / 100}}</p>-->
+                <p class="shop_price">{{goods.price / 100 | moneyFormat}}</p>
                 <div class="shop_deal">
                   <div class="shop_deal_left">
-                    <span>-</span>
-                    <input type="tel" value="1" v-model="goods.buy_count">
-                    <span>+</span>
+                    <span @click="updateGoodsCount(goods, false)">-</span>
+                    <input type="tel" value="1" v-model="goods.buy_count" disabled>
+                    <span @click="updateGoodsCount(goods, true)">+</span>
                   </div>
-                  <div class="shop_deal_right">
+                  <div class="shop_deal_right" @click.stop="clickTrash(goods)">
                     <span></span>
                     <span></span>
                   </div>
@@ -48,10 +49,11 @@
       <!--底部通栏-->
       <div id="tab_bar">
         <div class="tab-bar-left">
-          <a href="javascript:;" class="cart_check_box" checked></a>
+          <a href="javascript:;" class="cart_check_box" :checked="isSelectedAll" @click.stop="selectedAll(isSelectedAll)"></a>
           <span style="font-size: 16px;">全选</span>
           <div class="select-all">
-            合计：<span class="total-price">&yen;999.00</span>
+          <!--合计：<span class="total-price">&yen;999.00</span>-->
+            合计：<span class="total-price">{{totalPrice | moneyFormat}}</span>
           </div>
         </div>
         <div class="tab-bar-right">
@@ -66,8 +68,16 @@
 <script>
   import SelectLogin from './../Login/SelectLogin'
   import { mapState } from 'vuex'
+  import { MessageBox } from 'mint-ui';
   export default {
     name: "Chat",
+    data(){
+      return {
+        isSelectedAll: false,  //是否选中购物车中的所有商品
+        totalPrice: 0,  //已选中商品的总价格
+        currentDelGoods: {},  //当前删除的商品
+      }
+    },
     computed: {
       ...mapState(['userInfo', 'cartGoods']),
     },
@@ -77,7 +87,79 @@
     mounted() {
       // 请求商品数据
       this.$store.dispatch('reqCartGoods');
+    },
+    methods: {
+      //1.单个商品的增加和减少
+      updateGoodsCount(goods, isAdd){
+        // console.log(goods, isAdd)
+        this.$store.dispatch('updateGoodsCount', {goods, isAdd})
+        //计算商品的总价格
+        this.getAllGoodsPrice()
+      },
+
+      //2.是否选中所有的商品：全选按钮
+      selectedAll(isSelected){
+        //总控制
+        this.isSelectedAll= !isSelected
+        this.$store.dispatch('selectedAll', {isSelected: this.isSelectedAll})
+        //计算商品的总价格
+        this.getAllGoodsPrice()
+      },
+
+      //3.单个商品的选中和取消
+      selectedSingle(goods){
+        this.$store.dispatch('selectedSingle', {goods})
+        //计算商品的总价格
+        this.getAllGoodsPrice();
+        //判断是否全选
+        this.hasSelectedAll();
+      },
+
+      //4.计算商品的总价格
+      getAllGoodsPrice(){
+        let totalPrice= 0;
+        //遍历
+        this.cartGoods.forEach((goods, index)=>{
+          if(goods.checked){
+            totalPrice += goods.price / 100 * goods.buy_count;
+          }
+        })
+        this.totalPrice= totalPrice;
+      },
+
+      //5.判断是否全选
+      hasSelectedAll(){
+        let flag= true;
+        this.cartGoods.forEach(goods=>{
+          if(!goods.checked){
+            flag= false;
+          }
+        })
+
+        this.isSelectedAll= flag;
+      },
+
+
+      //6.点击删除按钮
+      clickTrash(goods){
+        MessageBox.confirm('您确定删除该商品吗?').then(action=>{
+          if('confirm' === action){
+            this.currentDelGoods= goods;
+            this.$store.dispatch('delSingleGoods', {goods});
+            //计算商品的总价格
+            this.getAllGoodsPrice();
+          }
+        })
+      },
+
+    },
+    filters: {
+      //格式化金钱
+      moneyFormat(money){
+        return '￥'+money.toFixed(2);  //保留两位小数
+      }
     }
+
   }
 </script>
 

@@ -84,6 +84,7 @@
           //3.监听下拉
           if(pos.y>=50){
             console.log('下拉刷新')
+            this.listScroll.refresh() //刷新滚动区的高度
           }
 
           //4.监听上拉
@@ -129,13 +130,19 @@
             position: 'center',
             duration: 1000
           });
+        } else if(result.err_code===0){
+          Toast({
+            message: '请先登录!',
+            position: 'center',
+            duration: 1000
+          });
         }
         // console.log(result);
       }
 
     },
 
-    /*updated() {
+    updated() {
       //解决better-scroll因为图片没有下载完导致的滚动条高度不够，无法浏览全部内容的问题。
       //原因是better-scroll初始化是在dom加载后执行，此时图片没有下载完成，导致滚动条高度计算不准确。
       //利用图片的complete属性进行判断，当所有图片下载完成后再对scroll重新计算。
@@ -152,7 +159,7 @@
           }
         }, 100)
       }
-    }*/
+    }
   }
 </script>
 
@@ -165,7 +172,7 @@
     .recommend
       background-color #f5f5f5
       //margin-bottom 50px
-      padding 10px 8px 50px 8px
+      padding 10px 6px 50px 6px
       display flex
       flex-direction row
       flex-wrap wrap

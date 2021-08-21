@@ -146,6 +146,14 @@ export default {
       let shopLis= this.$refs.shopParent.getElementsByClassName('shop-li');
       Array.prototype.slice.call(shopLis).forEach((li, index)=>{  //先将伪数组转换为一个真数组, 再进行遍历
         // console.log(li, index)
+
+        //判断： 取到最后的li标签
+        if(index===shopLis.length-1){
+          // console.log(li, index)
+          //给最后一个li标签加一个padding-bottom = 屏幕高度-当前元素高度-上边搜索框高度60-下边导航栏高度50
+          li.style.paddingBottom= `${window.innerHeight-li.clientHeight-110}px`
+        }
+
         top += li.clientHeight;  //当前li元素的高度
         // console.log(top)
         tempArr.push(top);

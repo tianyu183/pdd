@@ -51,7 +51,7 @@
               </section>
               <section class="login-message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img ref="captcha" class="get-verification" src="http://localhost:3000/api/captcha" alt="captcha" @click="getCaptchaCode()">
+                <img ref="captcha" class="get-verification" :src="BASE_URL+'/api/captcha'" alt="captcha" @click="getCaptchaCode()">
               </section>
             </section>
           </div>
@@ -81,6 +81,9 @@ export default {
       name: '', //用户名
       pwd: '', //密码
       captcha: '', //图形验证码
+
+      BASE_URL: 'http://localhost:3000'
+      // BASE_URL: ''  //打包时使用
     }
   },
   computed: {
@@ -131,7 +134,7 @@ export default {
 
     //4.获取图形验证码
     getCaptchaCode() {
-      this.$refs.captcha.src = 'http://localhost:3000/api/captcha?time='+new Date()
+      this.$refs.captcha.src = this.BASE_URL+'/api/captcha?time='+new Date()
     },
 
     //5.发送登录信息
@@ -205,7 +208,8 @@ export default {
         // 把用户信息同步到state中
         this.syncUserInfo(this.userInfo);
         // 返回主界面
-        this.$router.back();
+        // this.$router.back();
+        this.$router.replace('/me');
       }
 
     },
